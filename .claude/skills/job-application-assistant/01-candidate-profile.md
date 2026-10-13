@@ -1,3 +1,7 @@
+---
+framework_version: 1.1.1
+---
+
 # Candidate Profile
 
 ## Identity
@@ -7,9 +11,22 @@
 - **Email:** samanthkrishna2001@gmail.com
 - **LinkedIn:** linkedin.com/in/samanth-krishna-429126202
 - **GitHub:** github.com/Sammykrishna
-- **Languages:** English (C1 - Fluent), German (A2 - Basic), Telugu (Native), Tamil (Fluent), Hindi (Basic)
 - **Status:** M.Sc. Mechatronics student (RWU, 4th semester, ongoing), seeking internship or Werkstudent roles in robotics and physical AI
 - **Constraints:** None - open to relocating anywhere in Germany or broader Europe, and open to on-site, remote, or hybrid
+
+### Languages
+<!-- Every language you can work in professionally, with your honest level. Used by the
+Language Gate in 04-job-evaluation.md and by job-scraper/search-queries.md's query-language
+generation. Omit any language you don't actually work in - an undeclared language is treated as
+a hard no, not a gap to smooth over. -->
+
+| Language | Level | Notes |
+|----------|-------|-------|
+| English | C1 - Fluent | |
+| German | A2 - Basic | |
+| Telugu | Native | |
+| Tamil | Fluent | |
+| Hindi | Basic | |
 
 ## Education
 

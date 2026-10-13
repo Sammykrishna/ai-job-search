@@ -1,5 +1,5 @@
 % Intro Options
-\ProvidesClass{deedy-resume-openfont}[2014/04/30 CV class]
+\ProvidesClass{cover}[2024/04/30 Cover letter class]
 \NeedsTeXFormat{LaTeX2e}
 \DeclareOption{print}{\def\@cv@print{}}
 \DeclareOption*{%
@@ -21,7 +21,6 @@
 \renewcommand\refname{\vskip -1.5cm}
 
 % Color definitions
-\usepackage[usenames,dvipsnames]{xcolor}
 \definecolor{date}{HTML}{666666}
 \definecolor{primary}{HTML}{2b2b2b}
 \definecolor{headings}{HTML}{6A6A6A}
@@ -31,13 +30,10 @@
 % TeX Gyre Termes: a free, metric-compatible Times New Roman clone that ships
 % with every TeX Live install (including Overleaf), so no font files or
 % licensing concerns are needed. Bold/Italic are auto-detected by fontspec.
-\usepackage{fontspec}
 \setmainfont[Color=primary]{TeX Gyre Termes}
 \setsansfont[Scale=MatchLowercase,Mapping=tex-text]{TeX Gyre Termes}
 
 % Date command
-\usepackage[absolute]{textpos}
-% \usepackage[UKenglish]{isodate}
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
 \newcommand{\lastupdated}{\begin{textblock}{60}(155,5)
@@ -60,7 +56,6 @@ Last Updated on \today
 }
 
 % Section seperators
-\usepackage{titlesec}
 \titlespacing{\section}{0pt}{0pt}{0pt}
 \titlespacing{\subsection}{0pt}{0pt}{0pt}
 \newcommand{\sectionsep}{\vspace{8pt}}

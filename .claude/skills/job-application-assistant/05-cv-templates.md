@@ -1,3 +1,7 @@
+---
+framework_version: 1.4.5
+---
+
 # CV Templates and Tailoring Guide
 
 <!-- SETUP: Profile statements and section ordering are personalized by running /setup -->
@@ -8,7 +12,7 @@ All CVs use this custom two-column sidebar LaTeX template, dark teal accent colo
 
 **Layout mechanism:** a single-row `tabular` of two `p{}` cells (minipages), not `paracol`. The template originally used `paracol` (dynamic two-column balancing), but `pdftotext` testing showed paracol's reflow reordering the underlying PDF text stream once content grew — section headers and their content landed in the wrong place in the extracted text, which breaks ATS keyword parsing even though the visual PDF looks correct. Plain side-by-side minipages (no reflow engine) were tried next, but `pdftotext`'s reading-order heuristic (reconstructs order from text x/y position, not PDF write order) could still braid two independent minipages together when their content reached similar page heights. A single-row `tabular` of two `p{}` cells gives that heuristic a much stronger column-boundary signal and tests cleanly: the sidebar now extracts fully top-to-bottom, then the main column fully top-to-bottom, with no interleaving. The divider between columns is the tabular's own column rule (`colortbl`/`\arrayrulecolor`), not a background overlay.
 
-**Output file:** `cv/main_<company>.tex`
+**Output file:** `cv/main_<company>_<role>.tex`
 **Compile with:** **lualatex** (or pdflatex — the template only uses lmodern + T1 fontenc, no fontspec/OpenType fonts) on MiKTeX/TeX Live.
 **Page budget:** **exactly 1 page.** This is a single-page, two-column design, not the old 2-page moderncv layout — 1 page is correct and expected; anything else (a near-empty page or spillover to page 2) is a failure that must be fixed.
 **Requires:** `cv/proffesional.png` (headshot) in the same directory as the `.tex` file. (An older `cv/proffesional.jpeg` also exists from before the headshot was updated — new CVs should reference the `.png`.)
@@ -17,10 +21,10 @@ All CVs use this custom two-column sidebar LaTeX template, dark teal accent colo
 ### Compile command
 
 ```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>.tex
+cd cv && lualatex -interaction=nonstopmode main_<company>_<role>.tex
 ```
 
-Expected output: `Output written on main_<company>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
+Expected output: `Output written on main_<company>_<role>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
 
 ### Layout
 
@@ -86,21 +90,42 @@ After writing the CV and before presenting to the user, always compile and visua
 2. **Visible column imbalance.** One column running noticeably shorter than the other, leaving a large blank gap at the bottom of the shorter side while the other looks packed.
 
 Workflow:
-1. Run `lualatex -interaction=nonstopmode main_<company>.tex`.
+1. Run `lualatex -interaction=nonstopmode main_<company>_<role>.tex`.
 2. Check the output page count: must be exactly 1.
 3. Read the PDF via the Read tool and visually inspect the full page.
 4. If content overflows or a column is packed too tight: cut using **relevance-weighted cutting** below.
 5. If there's a lot of trailing white space at the bottom of both columns: the CV looks thin — consider restoring a previously-cut project, or lengthening a short bullet with a concrete detail.
+
+### LaTeX Special Characters (important)
+
+Postings and profile data arrive as plain text; the CV is LaTeX. Escape these wherever they land in body text - company names, achievement bullets, skill lists:
+
+| Character | Write | Typical trigger |
+|---|---|---|
+| `&` | `\&` | company names: Bang \& Olufsen, Brüel \& Kjær, H\&M |
+| `%` | `\%` | quantified achievements: "cut latency by 40\%" |
+| `$` | `\$` | salary and cost figures |
+| `#` | `\#` | "ranked \#1", C\# |
+| `_` | `\_` | file names, code identifiers |
+| `~` | `\textasciitilde{}` | URLs, "approx. 5 years" tildes |
+| `^` | `\textasciicircum{}` | version strings, math |
+
+Two failure modes deserve special care:
+
+- **`%` fails silently.** An unescaped `%` starts a LaTeX comment: the compile succeeds with zero errors, and everything after the `%` on that line vanishes from the PDF. `Cut inference latency by 40% and saved DKK 2M annually` renders as "Cut inference latency by 40" - the bullet keeps its impressive-looking fragment and loses the actual result. Quantified achievement bullets are exactly where the guidance steers you ("use numbers where possible"), so check every `%` in every bullet before compiling.
+- **`&` fails loudly** inside `\jobEntry` (alignment-tab errors, `Missing } inserted`). The compile loop catches it, but escape employer names up front rather than debugging the compile.
+
+Related trap: a bullet whose text begins with a literal `[` must be braced - `\item {[text]}` - or LaTeX parses the bracketed text as `\item`'s optional label and renders it clipped off the left page edge with a clean compile. The example CV's placeholder bullets are braced for exactly this reason.
 
 ## ATS Parseability
 
 Most employers run CVs through an ATS before a human sees them, and the ATS reads the PDF's embedded **text layer**, not the rendered page. After the layout passes the compile-and-inspect loop, verify the text layer:
 
 ```bash
-cd cv && pdftotext -layout main_<company>.pdf main_<company>.txt
+python tools/verify_pdf.py cv/main_<company>_<role>.pdf --dump-text cv/main_<company>_<role>.txt
 ```
 
-`pdftotext` comes from [poppler](https://poppler.freedesktop.org/), not the TeX distribution - it is an **optional** dependency. If it is not installed, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage.
+Extraction tries **pypdf** first (`pip install pypdf`, BSD license), then Poppler `pdftotext`. If a fallback still uses `pdftotext -layout`, it must also pass `-enc UTF-8`: Xpdf-based builds default to Latin-1, which makes every non-ASCII character in a perfectly good CV read back as a replacement character. If neither extractor is available, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage.
 
 What to check in the extraction:
 
@@ -109,6 +134,7 @@ What to check in the extraction:
 - **No other garbled output.** `(cid:NNN)` markers mean a font is embedded without a Unicode mapping.
 - **Reading order.** Confirmed clean with the tabular layout: the sidebar extracts fully top-to-bottom, then the main column extracts fully top-to-bottom, with no interleaving between columns. This was the specific defect the paracol-to-tabular migration fixed — if a future edit to the template reintroduces interleaving, that is a regression to flag, not an accepted trade-off.
 - **Keyword coverage.** Match the posting's required/preferred terms against the extracted text, in the posting's language. Since About Me is now the only section tailored per posting, keyword coverage will naturally be thinner than under the old fully-reframed workflow — report genuine gaps honestly rather than trying to backfill keywords into sections that are no longer edited per job.
+- **Date ranges are ASCII hyphens.** Run `python tools/verify_pdf.py cv/main_<company>_<role>.pdf --ascii-dates` - it exits 1 if any year is joined to a Unicode dash (en-dash U+2013 etc.), which many ATS parsers fail to read as a range. The `--` rule above already prevents this; the script confirms it.
 
 ## Page Budget - Hard 1-Page Limit
 
@@ -134,7 +160,7 @@ Since only About Me changes per posting, page fit is essentially fixed by the ma
 **Compile with:** lualatex. **Page budget:** exactly 2 pages.
 
 ```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>.tex
+cd cv && lualatex -interaction=nonstopmode main_<company>_<role>.tex
 ```
 
 ### Document Structure

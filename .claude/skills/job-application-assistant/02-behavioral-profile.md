@@ -1,3 +1,7 @@
+---
+framework_version: 1.0.0
+---
+
 # Behavioral Profile
 
 <!-- No formal assessment (DISC/MBTI/StrengthsFinder) on file - self-reported only. Update this file if a formal instrument is completed. -->
