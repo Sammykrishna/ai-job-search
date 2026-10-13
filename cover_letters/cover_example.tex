@@ -6,7 +6,7 @@
 % test for cover.cls: it must always compile with xelatex to exactly 1 page.
 % It demonstrates the correct itemize pattern: the list sits OUTSIDE
 % \lettercontent{} (whose trailing \\ errors on \end{itemize}) and is
-% wrapped in Raleway-Medium so the bullet font matches the body.
+% wrapped in TeX Gyre Termes so the bullet font matches the body.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[]{cover}
@@ -23,7 +23,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     TITLE NAME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\namesection{}{\Huge{[YOUR NAME]}}{  \href{mailto:your.email@example.com}{your.email@example.com} | [+XX XXXXXXXXXX] |  \urlstyle{same}\href{https://www.linkedin.com/in/yourprofile}{LinkedIn}
+\namesection{}{\Huge{[YOUR NAME]}}{  \href{mailto:your.email@example.com}{your.email@example.com} | [+XX XXXXXXXXXX] |  \urlstyle{same}\href{https://www.linkedin.com/in/yourprofile}{LinkedIn} | \href{https://github.com/yourusername}{GitHub}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,7 +37,7 @@
 
 \lettercontent{[Body paragraph: your most relevant experience, framed toward the tasks in the posting. Follow with 3--5 concrete bullets:]}
 
-{\raggedright\fontspec[Path = OpenFonts/fonts/raleway/]{Raleway-Medium}\fontsize{11pt}{13pt}\selectfont
+{\raggedright\fontspec{TeX Gyre Termes}\fontsize{11pt}{13pt}\selectfont
 \begin{itemize}
     \item \textbf{[Achievement 1]:} [concrete result with a number where possible]
     \item \textbf{[Achievement 2]:} [skill or project mapped to a posting requirement]

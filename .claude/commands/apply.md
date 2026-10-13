@@ -65,10 +65,9 @@ Also read the most recent existing CV and cover letter files for concrete struct
 
 ### CV (`cv/main_<company>.tex`)
 - Always in **English**
-- Follow the moderncv/banking format from `05-cv-templates.md`
-- Tailor the profile statement and experience bullets to the specific role
-- Reframe skills and achievements to match job requirements
-- Keep to 2 pages
+- Use the two-column sidebar (tabular) template from `05-cv-templates.md` — copy `cv/main_mercedesbenz.tex` verbatim as the starting point
+- **Tailor only the About Me closing sentence** to state interest in this specific role/company (e.g. "Interested in the [role] internship at [Company]."). Do not reorder Skills or Projects, do not reframe Work Experience bullets, do not touch any other section — this is a standing preference, not a one-off simplification
+- Keep to exactly 1 page
 
 ### Cover Letter (`cover_letters/cover_<company>_<role>.tex`)
 - **Match the language of the job posting** (Danish posting -> Danish cover letter, English posting -> English cover letter)
@@ -142,6 +141,8 @@ A JSON array of concrete edits the drafter can apply directly without re-reading
 ```
 Only use this format when you can quote the exact `old_string` from the drafts above. Make `old_string` unique — include enough surrounding context so it matches exactly once per file.
 
+**Important CV constraint:** the candidate now only tailors the About Me section per posting — Skills, Education, Work Experience, and Projects are fixed across every application and must not be edited. Any CV edit you propose must target only the About Me paragraph. Put all other CV feedback (missed keywords, reframing ideas) in Part B as a note that it's a known, accepted gap under the About-Me-only policy, not an edit to apply.
+
 **Part B — Narrative suggestions (for judgment calls that are not mechanical edits):**
 Prose suggestions grouped by category. Produce each category even if your finding is "no issues" — silence on a category can be mistaken for skipping it.
 - **Missed keywords/requirements** — what to add and roughly where, if it cannot be expressed as a clean string replacement
@@ -196,10 +197,9 @@ If either compile fails, fix the error and re-compile until clean.
 Read both PDFs via the Read tool and verify:
 
 **CV (`cv/main_<company>.pdf`):**
-- [ ] Exactly 2 pages (not 1, not 3)
-- [ ] No orphaned `\cventry` titles — a job/education title line must never sit alone at the bottom of page 1 with its bullets on page 2. This is the most common failure.
-- [ ] Section headings are not isolated at the top of page 2 with only 1-2 lines below
-- [ ] No awkward whitespace gaps
+- [ ] Exactly 1 page (not 2, not spilling over)
+- [ ] No content overflow past the page bottom in either column
+- [ ] No visible column imbalance (one column noticeably shorter, leaving a large blank gap)
 
 **Cover letter (`cover_letters/cover_<company>_<role>.pdf`):**
 - [ ] Exactly 1 page
@@ -210,9 +210,7 @@ Read both PDFs via the Read tool and verify:
 
 If the layout has problems, edit the `.tex` files and recompile. Common fixes (see `05-cv-templates.md` and `06-cover-letter-templates.md` for full details):
 
-- **Orphaned CV entry title:** `\usepackage{needspace}` in preamble, then `\needspace{5\baselineskip}` immediately before the problematic `\cventry`
-- **CV spills to page 3 with only a trailing section:** `\enlargethispage{2-3\baselineskip}` before a late section
-- **Substantial content on page 3:** cut content using **relevance-weighted cutting** (see `05-cv-templates.md` → "Relevance-weighted cutting"). Score each candidate line by (a) relevance to THIS posting's keywords and responsibilities, (b) uniqueness (is it duplicated elsewhere?), (c) narrative load (does the cover letter depend on it?). Cut the lowest-total-score line first, regardless of section. Do NOT mechanically apply a static section-based priority order — an older-role bullet that hits posting keywords is worth more than a recent-role bullet that does not.
+- **CV overflows past 1 page or a column is packed too tight:** since only About Me is tailored per posting, this should not normally happen — first check whether the About Me closing sentence got too long and shorten it. Never reorder or trim Skills/Projects/Work Experience to fix a fit issue; those sections are fixed across applications.
 - **Cover letter itemize breaks compile or uses wrong font:** close `\lettercontent{}` before the list, wrap the list in `{\raggedright\fontspec[Path = OpenFonts/fonts/raleway/]{Raleway-Medium}\fontsize{11pt}{13pt}\selectfont \begin{itemize}...\end{itemize}\par}`
 - **Cover letter spills to 2 pages:** trim using the same relevance-weighted logic. First cut: sentences that restate what a bullet already said. Second cut: a bullet that does not hit posting keywords. Last resort: a bullet that does hit posting keywords. Never reduce geometry or line spacing.
 

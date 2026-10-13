@@ -1,8 +1,7 @@
-%% Example CV - [YOUR_NAME]
+%% Example CV - Samanth Krishna
 %% Comprehensive overview of all competencies, experience, and achievements.
 %% Use as a master reference when tailoring role-specific CVs.
 %%
-%% SETUP: Run /setup to populate this with your actual information.
 %% Compile with: lualatex main_example.tex
 %% (pdflatex often fails on modern MiKTeX with fontawesome5 font-expansion errors.)
 
@@ -24,18 +23,18 @@
     linkcolor=blue,
     filecolor=magenta,
     urlcolor=blue,
-    pdftitle={[YOUR_NAME] - CV},
+    pdftitle={Samanth Krishna - CV},
     pdfpagemode=FullScreen,
 }
 \usepackage[scale=0.80]{geometry}
 \usepackage{import}
 
 % personal data
-\name{[First]}{[Last]}
-\address{[Your Address, City, Country]}{}{}
-\phone[mobile]{[+XX XXXXXXXXXX]}
-\email{[your.email@example.com]}
-\extrainfo{\href{[https://linkedin.com/in/your-profile]}{LinkedIn}, \href{[https://github.com/your-username]}{GitHub}}
+\name{Samanth}{Krishna}
+\address{Garten Strasse 41, 88250 Weingarten, Germany}{}{}
+\phone[mobile]{(+49) 155 6078 3621}
+\email{samanthkrishna2001@gmail.com}
+\extrainfo{\href{https://linkedin.com/in/samanth-krishna-429126202}{LinkedIn}, \href{https://github.com/Sammykrishna}{GitHub}}
 
 \begin{document}
 
@@ -46,7 +45,7 @@
 % ============================================================
 
 \vspace{6pt}
-\small{[Write a 3-5 line profile statement tailored to the role you're applying for. Focus on what makes you uniquely qualified. Example: "Data scientist with a PhD in [field] and X years of industry experience. Combines deep domain expertise in [domain] with strong applied machine learning and Python development skills. Experienced in developing end-to-end ML pipelines, from data ingestion to stakeholder-facing dashboards."]}
+\small{M.Sc. Mechatronics student (Ravensburg-Weingarten University of Applied Sciences) specializing in robotics manipulation, perception, and autonomous systems. Hands-on experience spans model-free 6-DoF pose estimation (FoundationPose + SAM2), MoveIt2 grasp planning, ROS2/Nav2 navigation stacks, and camera-LiDAR sensor fusion for autonomous driving. Industry background in embedded systems (custom PCB design, MicroPython firmware) and industrial machine vision (Cognex automated optical inspection on Apple iPhone production lines). Seeking an internship or Werkstudent role in robotics, perception, or physical AI.}
 
 % ============================================================
 %     CORE COMPETENCIES
@@ -56,15 +55,17 @@
 \vspace{1pt}
 \begin{itemize}
 
-\item \textbf{[Skill Category 1]}: [Specific skills, frameworks, tools. Be concrete.]
+\item \textbf{Robotics \& Motion Planning}: ROS2, Nav2, MoveIt2 (OMPL), Gazebo, TurtleBot3, TIAGo
 
-\item \textbf{[Skill Category 2]}: [Specific skills, frameworks, tools.]
+\item \textbf{Perception \& Computer Vision}: YOLOv8, PyTorch, OpenCV, FoundationPose, SAM2, AprilTag, camera-LiDAR sensor fusion
 
-\item \textbf{[Skill Category 3]}: [Specific skills, frameworks, tools.]
+\item \textbf{Embedded Systems}: Raspberry Pi Pico, MicroPython, Altium Designer (PCB design), signal conditioning
 
-\item \textbf{[Skill Category 4]}: [Domain expertise, methods, approaches.]
+\item \textbf{Industrial Machine Vision}: Cognex vision systems, automated optical inspection, production-line calibration
 
-\item \textbf{[Skill Category 5]}: [Tools, platforms, software.]
+\item \textbf{Software \& Infrastructure}: Python, C, Docker, CUDA, Git, Linux, FastAPI, WebSocket
+
+\item \textbf{Simulation}: CARLA, Gazebo (Harmonic), KITTI-360
 
 \end{itemize}
 
@@ -77,31 +78,79 @@
 \begin{itemize}
 
 % --- Most Recent Role ---
-\item{\cventry{[YYYY--Present]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
+\item{\cventry{2025--Present}{Embedded Systems Developer (Minijob)}{Skibbweiss GmbH}{Weingarten, Germany}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1 - be specific, use numbers where possible]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
-    \item [Achievement or responsibility 4]
+    \item Upgraded an industrial liquid filling system, replacing legacy controls with a Raspberry Pi Pico controller
+    \item Designed signal conditioning circuitry between flow meters, solenoid valves, and the MCU
+    \item Validated on breadboard, produced a production-ready PCB in Altium Designer
+    \item Programmed in MicroPython with multi-channel dosing and pulse counting logic
 \end{itemize}}}
 
 \vspace{3pt}
 
 % --- Previous Role ---
-\item{\cventry{[YYYY--YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
+\item{\cventry{02/2024--07/2024}{Field Service Engineer}{Lishtong -- Apple iPhone Manufacturing}{Bangalore, India}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
+    \item Installed and configured Cognex vision cameras for automated optical inspection on iPhone production lines
+    \item Supported calibration, testing, and on-site troubleshooting
+    \item Set up feature and defect detection tasks across multiple lines, meeting inspection throughput targets
 \end{itemize}}}
 
 \vspace{3pt}
 
 % --- Earlier Role ---
-\item{\cventry{[YYYY--YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
+\item{\cventry{07/2023--01/2024}{Intern -- Industrial Automation \& Process Control}{Yokogawa Electric}{Bangalore, India}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
+    \item Programmed and configured DCS/PLC systems using ladder logic for industrial process control
+    \item Supported live demonstrations for international clients
+\end{itemize}}}
+
+\end{itemize}
+
+% ============================================================
+%     SELECTED PROJECTS
+% ============================================================
+
+\section{Selected Projects}
+\vspace{3pt}
+\begin{itemize}
+
+\item{\cventry{05/2026--Present}{6-DoF Model-Free Pose Estimation (FoundationPose + SAM2)}{Personal Project}{}{}{\vspace{1pt}
+\begin{itemize}
+    \item Built a model-free 6-DoF pose estimation pipeline in ROS2 Jazzy achieving millimeter-level pose accuracy, replacing an AprilTag front-end for marker-free pick-and-place with TIAGo
+    \item Integrating MoveIt2 grasp planning with a Robotiq 2F-85 gripper on a UR5e arm; GPU-accelerated inference (RTX 4050) and an ADD/ATE/ARE benchmark node validated against Gazebo ground truth
+\end{itemize}}}
+
+\vspace{3pt}
+
+\item{\cventry{2026}{Natural Language Robot Control}{Personal Project}{}{}{\vspace{1pt}
+\begin{itemize}
+    \item Built a natural language interface for TurtleBot3 in Gazebo; commands interpreted by Claude AI via the tool\_use API, routed to /cmd\_vel or Nav2 path planning
+    \item Engineered a FastAPI + WebSocket backend with a browser UI (voice input, live mini-map) and a safety layer enforcing velocity clamping and topic whitelisting
+\end{itemize}}}
+
+\vspace{3pt}
+
+\item{\cventry{2025}{Autonomous Pick-and-Place with TIAGo and MoveIt2}{Intelligent Robots (IKI), RWU}{}{}{\vspace{1pt}
+\begin{itemize}
+    \item Implemented a full autonomous manipulation pipeline: AprilTag detection, collision-free arm planning via MoveIt2 (OMPL RRTConnect), and pick-and-place in Gazebo
+    \item Orchestrated 4 containers (simulation, MoveIt2, AprilTag, workspace) across 9 Docker Compose service configurations
+\end{itemize}}}
+
+\vspace{3pt}
+
+\item{\cventry{2024/2025}{Sensor Fusion-Based AEB System for ADAS}{M.Sc. Research Project, RWU}{}{}{\vspace{1pt}
+\begin{itemize}
+    \item Engineered an AEB system in CARLA 0.10 fusing YOLOv8 detections with 64-channel LiDAR, achieving 98.3\% collision avoidance (59/60 runs) across three Euro NCAP-inspired scenario types
+    \item Implemented an FSM (Inactive--Warning--Braking) for interpretable braking decisions, with OpenCV used extensively for image processing throughout the pipeline
+\end{itemize}}}
+
+\vspace{3pt}
+
+\item{\cventry{2024/2025}{3D Vehicle Localisation on KITTI-360}{LiDAR and Radar Systems, RWU}{}{}{\vspace{1pt}
+\begin{itemize}
+    \item Combined YOLOv8 segmentation with Velodyne LiDAR point clouds for per-vehicle 3D clustering, with OpenCV used extensively for image processing throughout the pipeline
+    \item Implemented camera--LiDAR calibration and a point-in-box ratio metric
 \end{itemize}}}
 
 \end{itemize}
@@ -114,14 +163,18 @@
 \vspace{1pt}
 \begin{itemize}
 
-\item{\cventry{[YYYY--YYYY]}{[Degree] in [Field]}{[Institution]}{[City, Country]}{}{\vspace{1pt}
-Thesis: ``[Thesis Title].'' [Brief description of research focus.]
+\item{\cventry{10/2024--Present}{M.Sc. Mechatronics (4th semester, ongoing)}{Ravensburg-Weingarten University of Applied Sciences (RWU)}{Weingarten, Germany}{}{\vspace{1pt}
+Focus: robotics, computer vision, autonomous systems.
 }}
 
 \vspace{3pt}
 
-\item{\cventry{[YYYY--YYYY]}{[Degree] in [Field]}{[Institution]}{[City, Country]}{}{\vspace{1pt}
-[Brief description or key topics.]
+\item{\cventry{07/2019--07/2023}{B.Tech. Robotics \& Automation (Grade 2.3)}{Karunya Institute of Technology and Sciences}{India}{}{\vspace{1pt}
+}}
+
+\vspace{3pt}
+
+\item{\cventry{06/2017--04/2020}{Diploma in Electronics \& Robotics (89\%)}{Swamy Abedhanandha Polytechnic College}{India}{}{\vspace{1pt}
 }}
 
 \end{itemize}
@@ -133,27 +186,7 @@ Thesis: ``[Thesis Title].'' [Brief description of research focus.]
 \section{Languages}
 \vspace{1pt}
 \begin{itemize}
-\item [Language 1] (native), [Language 2] (fluent), [Language 3] (intermediate).
-\end{itemize}
-
-% ============================================================
-%     PUBLICATIONS (optional)
-% ============================================================
-
-\section{Publications}
-\vspace{1pt}
-\begin{itemize}
-\item [Author(s)] ([Year]). [Title]. [Journal/Conference]. \href{[DOI_URL]}{DOI link}
-\end{itemize}
-
-% ============================================================
-%     HONORS AND AWARDS (optional)
-% ============================================================
-
-\section{Honors and Awards}
-\vspace{1pt}
-\begin{itemize}
-\item{\textbf{[Award Name]} -- [Event/Organization] ([Year]).}
+\item Telugu (native), Tamil (fluent), English (C1 -- fluent), Hindi (basic), German (A2 -- basic).
 \end{itemize}
 
 % ============================================================

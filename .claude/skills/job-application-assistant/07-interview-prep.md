@@ -10,44 +10,54 @@ Keep answers to 1-2 minutes. Be specific. End with what you learned or would do 
 
 ## Ready-Made STAR Examples
 
-<!-- These are populated by /setup from your actual experience. Below are templates showing the format. -->
+### 1. 6-DoF Model-Free Pose Estimation (technical depth / problem-solving)
+**S:** TIAGo pick-and-place relied on AprilTag markers for pose estimation, which required visible fiducial markers on objects - not viable for marker-free industrial pick-and-place.
+**T:** Build a model-free 6-DoF pose estimation pipeline that could replace the AprilTag front-end without markers.
+**A:** Combined FoundationPose with SAM2 segmentation in ROS2 Jazzy, integrated GPU-accelerated inference (RTX 4050), and built an ADD/ATE/ARE benchmark node to validate accuracy against Gazebo ground truth.
+**R:** Achieved millimeter-level pose accuracy; currently integrating the pipeline with MoveIt2 grasp planning on a UR5e arm with a Robotiq 2F-85 gripper for marker-free pick-and-place.
+**Use for:** "technical deep-dive", "tell me about a challenging project"
 
-### 1. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT - what was happening, what was the problem]
-**T:** [YOUR RESPONSIBILITY - what you specifically needed to do]
-**A:** [WHAT YOU DID - specific actions, tools, methods]
-**R:** [OUTCOME - measurable results, adoption, impact]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 2. Sensor Fusion-Based AEB System for ADAS (measurable results / safety-critical systems)
+**S:** The M.Sc. research project required demonstrating a safety-critical automatic emergency braking (AEB) system under realistic driving scenarios.
+**T:** Engineer a sensor-fusion pipeline combining camera and LiDAR detections to trigger reliable, interpretable braking decisions.
+**A:** Fused YOLOv8 object detections with 64-channel LiDAR point clouds in CARLA 0.10; implemented a finite-state machine (Inactive-Warning-Braking) across three Euro NCAP-inspired scenario types (CCRs, CCRm, CCRb).
+**R:** Achieved 98.3% collision avoidance (59/60 runs) with interpretable, explainable braking logic.
+**Use for:** "tell me about a project with measurable results", "safety-critical systems experience"
 
-### 2. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 3. Embedded Controller Upgrade at Skibbweiss (ownership / cross-domain hardware+software)
+**S:** An industrial liquid filling system at Skibbweiss GmbH ran on legacy controls that needed modernization.
+**T:** Design and deliver a replacement control system spanning circuit design, PCB layout, and firmware.
+**A:** Designed signal-conditioning circuitry between flow meters, solenoid valves, and a Raspberry Pi Pico MCU; validated on breadboard, then produced a production-ready PCB in Altium Designer; programmed multi-channel dosing and pulse-counting logic in MicroPython.
+**R:** Delivered a working production controller, taking full ownership from circuit design through to deployed firmware.
+**Use for:** "ownership of a project end-to-end", "hardware/software cross-functional work"
 
-### 3. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 4. Cognex Vision Systems at Lishtong (working under production pressure)
+**S:** iPhone production lines at Lishtong needed automated optical inspection to meet strict throughput and quality targets.
+**T:** Install, configure, and troubleshoot Cognex vision cameras for real-time defect and feature detection across multiple production lines.
+**A:** Set up feature and defect detection tasks per line; supported calibration and on-site troubleshooting under live production conditions.
+**R:** Met inspection throughput targets across multiple lines in a high-volume manufacturing environment.
+**Use for:** "working under pressure/deadlines", "production/manufacturing environment experience"
 
-<!-- Add more STAR examples as needed. Aim for 4-6 covering different competencies. -->
+### 5. Multi-Container Docker Orchestration for TIAGo Pick-and-Place (systems integration)
+**S:** An autonomous pick-and-place pipeline with TIAGo needed AprilTag detection, MoveIt2 planning, and simulation to run together reliably.
+**T:** Integrate these components into a single reproducible pipeline.
+**A:** Orchestrated 4 containers (simulation, MoveIt2, AprilTag, workspace) across 9 Docker Compose service configurations, implementing collision-free arm planning via MoveIt2 (OMPL RRTConnect).
+**R:** Delivered a full, reproducible autonomous manipulation pipeline in Gazebo.
+**Use for:** "systems integration", "reproducibility/DevOps in robotics"
 
 ## Common Tough Questions
 
 ### "Why did you leave [previous company]?"
-> [PREPARE YOUR ANSWER - be honest, forward-looking, no negativity about former employer]
+> Each move has been a deliberate step toward robotics/perception depth: Yokogawa (internship) -> Lishtong (production-line field engineering) -> relocating to Germany for the M.Sc. in Mechatronics -> Skibbweiss (Minijob applying embedded skills alongside study). Frame as intentional progression, not as leaving under a cloud.
 
 ### "You don't have [specific skill/experience]."
-> [PREPARE YOUR ANSWER - acknowledge the gap, bridge to adjacent experience, show willingness to learn]
+> Acknowledge specific gaps honestly (e.g., no formal industry robotics role yet), and bridge with concrete project evidence - the FoundationPose+SAM2 pipeline and MoveIt2 grasp-planning integration demonstrate the same underlying skills a job would require, built independently. Show willingness to learn quickly, citing the fast ramp from AprilTag-based to model-free pose estimation.
 
 ### "Where do you see yourself in 5 years?"
-> [PREPARE YOUR ANSWER - show ambition aligned with the role's growth path]
+> Growing into a robotics engineer specializing in manipulation and perception, ideally on a research-driven team building physical AI systems - the direction the personal projects and coursework are already pointing toward.
 
 ### "What's your biggest weakness?"
-> [PREPARE YOUR ANSWER - genuine weakness with concrete mitigation strategy]
+> [TO BE FILLED - this needs a genuine, personal answer with a concrete mitigation strategy. Discuss with the candidate before an actual interview; do not fabricate one.]
 
 ### "Why this company specifically?"
 > Customize per company. Must reference: specific projects, company values, market position, or team structure. Never give a generic answer.

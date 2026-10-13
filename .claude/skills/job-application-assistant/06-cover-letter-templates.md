@@ -2,11 +2,10 @@
 
 ## Template: Custom cover.cls (XeLaTeX)
 
-Cover letters use a custom LaTeX document class (`cover.cls`) with Lato/Raleway fonts.
+Cover letters use a custom LaTeX document class (`cover.cls`) set in TeX Gyre Termes (a free, metric-compatible Times New Roman clone bundled with every TeX Live install, including Overleaf — no font files to upload).
 
 **Output file:** `cover_letters/cover_<company>_<role>.tex`
 **Compile with:** XeLaTeX (cover.cls requires fontspec)
-**Font directory:** `cover_letters/OpenFonts/fonts/`
 
 ### Compile command
 
@@ -36,11 +35,11 @@ The `\lettercontent{}` macro appends `\\` to its argument. This breaks when the 
 \end{itemize}}
 ```
 
-**Correct — close `\lettercontent{}` before the list and wrap the list in the matching Raleway-Medium font so typography stays consistent:**
+**Correct — close `\lettercontent{}` before the list and wrap the list in the matching TeX Gyre Termes font so typography stays consistent:**
 ```latex
 \lettercontent{Here is how my experience maps:}
 
-{\raggedright\fontspec[Path = OpenFonts/fonts/raleway/]{Raleway-Medium}\fontsize{11pt}{13pt}\selectfont
+{\raggedright\fontspec{TeX Gyre Termes}\fontsize{11pt}{13pt}\selectfont
 \begin{itemize}
     \item ...
 \end{itemize}\par}
@@ -49,7 +48,7 @@ The `\lettercontent{}` macro appends `\\` to its argument. This breaks when the 
 \lettercontent{[next paragraph]}
 ```
 
-The font wrapper is mandatory — if you just move `\begin{itemize}` outside `\lettercontent{}` without the `\fontspec` block, bullets render in the default body font (Lato) and visually mismatch the rest of the letter.
+The font wrapper is mandatory — if you just move `\begin{itemize}` outside `\lettercontent{}` without the `\fontspec` block, bullets render in the article default (Latin Modern) and visually mismatch the rest of the letter. Note also that `cover.cls` overrides `\labelitemi` to a plain `-` (see "ATS-safe bullets" below) — do not reintroduce `\textbullet` or a Unicode bullet character.
 
 ## Document Structure
 
@@ -72,7 +71,7 @@ The font wrapper is mandatory — if you just move `\begin{itemize}` outside `\l
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     TITLE NAME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\namesection{}{\Huge{[YOUR_NAME]}}{  \href{mailto:[YOUR_EMAIL]}{[YOUR_EMAIL]} | [YOUR_PHONE] |  \urlstyle{same}\href{[YOUR_LINKEDIN_URL]}{LinkedIn}
+\namesection{}{\Huge{[YOUR_NAME]}}{  \href{mailto:[YOUR_EMAIL]}{[YOUR_EMAIL]} | [YOUR_PHONE] |  \urlstyle{same}\href{[YOUR_LINKEDIN_URL]}{LinkedIn} | \href{[YOUR_GITHUB_URL]}{GitHub}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,10 +136,13 @@ The font wrapper is mandatory — if you just move `\begin{itemize}` outside `\l
 - Use `\vspace{.5cm}` between major sections for readability (only if space permits)
 
 ### Bullet Lists
-- Place `\begin{itemize}...\end{itemize}` **outside** a `\lettercontent{}` block (see "Known template pitfall" above), wrapped in the matching Raleway-Medium `\fontspec` so the bullet font matches the body
+- Place `\begin{itemize}...\end{itemize}` **outside** a `\lettercontent{}` block (see "Known template pitfall" above), wrapped in the matching TeX Gyre Termes `\fontspec` so the bullet font matches the body
 - 3-5 bullets is ideal
 - Start each bullet with bold label or action verb
 - Use `\textbf{Label:}` for category-style bullets
+
+### ATS-safe bullets
+`cover.cls` redefines `\labelitemi` to a plain `-` because `\textbullet` loses its ToUnicode mapping under the custom fonts, making `pdftotext` extract `�` instead of a real character. Never override this back to `\textbullet` or a literal Unicode bullet in a cover letter file.
 
 ### LaTeX Special Characters
 - Underscore: `\_`

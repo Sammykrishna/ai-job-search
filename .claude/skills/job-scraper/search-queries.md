@@ -1,70 +1,74 @@
 # Search Queries for Job Scraper
 
-<!-- SETUP: Customize these queries based on your skills, target roles, and location -->
+<!-- Candidate is job-searching in Germany. The built-in scraper CLI tools (Jobindex, Jobnet, Jobbank, Jobdanmark) target the Danish market and are not usable here. -->
 
 ## Search Sites
 
-Primary (Danish job market):
-- **jobindex.dk** - largest Danish job board
-- **linkedin.com/jobs** - LinkedIn job listings (filter: Denmark / your city)
-- **karriere.dk** - IDA's job board (engineering/science roles)
-- **jobfinder.dk** - another major Danish job board
-- **akademikernes.dk** - academic union job board
+Primary (works out of the box, location-agnostic):
+- **linkedin.com/jobs** - LinkedIn job listings, filter to Germany / specific city
 
-Secondary (company career pages via Google):
-- Direct Google searches with `site:` filters for known target companies
+Secondary (company career pages via Google `site:` search) - see target companies below.
+
+Planned additions (run `/add-portal` to wire these up as dedicated scraper skills):
+- **StepStone** (stepstone.de) - one of the largest German job boards
+- **Indeed.de** - broad German job board
+- **Xing** - German-market professional network with job listings
+- **Arbeitsagentur** (arbeitsagentur.de) - German Federal Employment Agency job board
 
 ## Query Categories
 
-Queries are grouped by priority. Each query should be combined with your location terms (e.g. "Copenhagen", "Sjælland", "Hovedstaden") where the site supports it.
+Queries are grouped by priority. No commute radius applies - candidate is open to relocating anywhere in Germany or broader Europe, so location terms are broad ("Germany") rather than city-specific.
 
-### Priority 1: [YOUR_PRIMARY_ROLE_TYPE]
+### Priority 1: Robotics Manipulation & Perception
 
-These match your strongest and most desired career direction.
-
-```
-site:jobindex.dk "[YOUR_PRIMARY_JOB_TITLE]" [YOUR_CITY]
-site:jobindex.dk "[YOUR_KEY_SKILL]" [YOUR_CITY]
-site:linkedin.com/jobs "[YOUR_PRIMARY_JOB_TITLE]" [YOUR_COUNTRY]
-```
-
-### Priority 2: [YOUR_DOMAIN_EXPERTISE]
-
-These match your domain expertise.
+Primary and most desired career direction.
 
 ```
-site:jobindex.dk [YOUR_DOMAIN_KEYWORD_1] [YOUR_CITY] OR [YOUR_REGION]
-site:jobindex.dk [YOUR_DOMAIN_KEYWORD_2] [YOUR_COUNTRY]
-site:linkedin.com/jobs [YOUR_DOMAIN_KEYWORD_1] [YOUR_CITY] [YOUR_COUNTRY]
+site:linkedin.com/jobs "Robotics Engineering Working Student" Germany
+site:linkedin.com/jobs "Werkstudent Robotik" Germany
+site:linkedin.com/jobs "Computer Vision Working Student" Germany
+site:linkedin.com/jobs "Werkstudent Computer Vision" Germany
+site:linkedin.com/jobs "Perception Software Engineer" Werkstudent Germany
+site:linkedin.com/jobs "Manipulation" "Grasp Planning" Intern Germany
 ```
 
-### Priority 3: [YOUR_ADJACENT_ROLE_TYPE]
+### Priority 2: Embedded / Robotics Control
 
-Adjacent roles you could pivot into.
-
-```
-site:jobindex.dk "[YOUR_ADJACENT_TITLE_1]" [YOUR_KEY_SKILL] [YOUR_CITY]
-site:jobindex.dk "[YOUR_ADJACENT_TITLE_2]" [YOUR_KEY_SKILL] [YOUR_CITY]
-```
-
-### Priority 4: Broader Technical / Consulting
-
-Wider net for general technical roles.
+Secondary career direction - embedded systems and robotics control.
 
 ```
-site:jobindex.dk [YOUR_KEY_SKILL] developer [YOUR_CITY]
-site:linkedin.com/jobs "[YOUR_KEY_SKILL] developer" [YOUR_CITY]
-site:jobindex.dk "technical consultant" [YOUR_DOMAIN] [YOUR_CITY]
+site:linkedin.com/jobs "Embedded Systems Working Student" Germany
+site:linkedin.com/jobs "ROS2" "Robotics Software" Intern Germany
+site:linkedin.com/jobs "Embedded Systems" Werkstudent PCB OR Firmware Germany
+```
+
+### Priority 3: Autonomous Driving / Sensor Fusion
+
+Third career direction - autonomous driving and sensor fusion.
+
+```
+site:linkedin.com/jobs "Autonomous Driving" "Sensor Fusion" Intern Germany
+site:linkedin.com/jobs "ADAS" Werkstudent Germany
+site:linkedin.com/jobs "Sensor Fusion" "Working Student" Germany
+```
+
+### Priority 4: Target Companies (broader net via company career pages)
+
+```
+site:neura-robotics.com jobs OR careers Werkstudent OR intern
+site:sereact.ai careers
+site:zeiss.com careers robotics OR "computer vision" intern
+site:bmwgroup.jobs "working student" robotics OR "computer vision"
+site:ipa.fraunhofer.de jobs OR karriere
+site:cml.fraunhofer.de jobs OR karriere
+site:truphysics.com careers
+site:liebherr.com careers robotics OR embedded
+site:global.abb careers robotics OR embedded intern
 ```
 
 ## Location Filter
 
-When evaluating results, verify the job location is within reasonable commute distance from your home. Define acceptable areas:
-- [YOUR_CITY] and surrounding areas
-- [ACCEPTABLE_AREA_1]
-- [ACCEPTABLE_AREA_2]
-- [BORDERLINE_AREA] (borderline - ~X min by transit)
-- [TOO_FAR_AREA] (too far)
+No commute constraint - candidate is open to relocating anywhere in Germany, and open to broader Europe. All of Germany, remote, hybrid, and on-site roles are acceptable. No borderline/too-far tiers apply.
 
 ## Date Filter
 

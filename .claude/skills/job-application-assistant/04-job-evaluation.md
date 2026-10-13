@@ -16,9 +16,9 @@ How well do the required/preferred skills align with the candidate's capabilitie
 | 40-59 | Partial match, significant upskilling needed |
 | 0-39 | Fundamental mismatch |
 
-**Strong match areas:** [YOUR_PRIMARY_SKILLS]
-**Moderate match areas:** [YOUR_SECONDARY_SKILLS]
-**Weak match areas:** [SKILLS_YOU_LACK]
+**Strong match areas:** ROS2, Nav2, MoveIt2, Gazebo, YOLOv8, PyTorch, camera-LiDAR sensor fusion, robotics manipulation/perception
+**Moderate match areas:** Embedded systems (Raspberry Pi Pico, PCB design, MicroPython), autonomous driving/ADAS (CARLA, sensor fusion)
+**Weak match areas:** Large-scale production software engineering, deployed ML systems at scale, formal published robotics research (all current work is coursework/personal projects, not yet publication-track)
 
 ### 2. Experience Match (0-100)
 Does work history align with what they're looking for?
@@ -30,9 +30,8 @@ Does work history align with what they're looking for?
 | 40-59 | Adjacent experience, would need to make the case |
 | 0-39 | Unrelated experience |
 
-**Strong:** [YOUR_DIRECT_EXPERIENCE_DOMAINS]
-**Moderate:** [YOUR_ADJACENT_EXPERIENCE]
-**Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
+**Strong:** Robotics manipulation/perception (personal + academic projects), embedded systems (Skibbweiss role + PCB design), industrial machine vision (Lishtong Cognex role), industrial automation/process control (Yokogawa DCS/PLC ladder logic programming and configuration)
+**Entry-level:** All roles - candidate is a current M.Sc. student; expect entry-level/internship/Werkstudent seniority across the board
 
 ### 3. Behavioral/Culture Fit (0-100)
 Does the role and company culture match the behavioral profile?
@@ -47,9 +46,11 @@ Does the role and company culture match the behavioral profile?
 **Red flags to research:** Department disorganization, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
 
 ### 4. Location & Logistics (Pass/Fail + Notes)
-- Within commute range: PASS
-- Remote with occasional office: PASS
-- Requires relocation: FAIL (deal-breaker)
+<!-- No location constraint on file - candidate is open to relocating anywhere in Germany or broader Europe -->
+- Anywhere in Germany: PASS
+- Remote / hybrid / on-site: PASS
+- Requires relocation within Europe: PASS (relocation is not a deal-breaker for this candidate)
+- Requires relocation outside Europe: FLAG (discuss with user)
 - Frequent international travel: FLAG (discuss with user)
 
 ### 5. Career Alignment & Motivation (0-100)
@@ -63,19 +64,19 @@ Does this role advance career goals and contain tasks that energize?
 | 0-39 | Dead end or backwards step |
 
 **Career goals:**
-- [YOUR_CAREER_GOAL_1]
-- [YOUR_CAREER_GOAL_2]
-- [YOUR_CAREER_GOAL_3]
+- Primary: Manipulation and perception in robotics (deepest engineering focus - pose estimation feeding grasp planning)
+- Secondary: Embedded/robotics control (custom PCB design, microcontroller programming)
+- Third: Autonomous driving / sensor fusion
 
 **Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energize* you. Consider:
-- Tasks that energize: [YOUR_ENERGIZING_TASKS]
-- Tasks that drain: [YOUR_DRAINING_TASKS]
-- Non-task factors: leadership style, department culture, company values, degree of autonomy
+- Tasks that energize: Research-driven, technically deep, challenging robotics engineering work (this is the deciding factor over company name, industry, or prestige)
+- Tasks that drain: Not yet identified - revisit after a few applications/interviews
+- Non-task factors: No stated preference on leadership style or department culture yet - candidate has an open profile at this stage
 
 **Life situation alignment:** Consider personal constraints:
-- **Security**: [YOUR_FINANCIAL_SITUATION_CONTEXT]
-- **Flexibility**: [YOUR_SCHEDULE_CONSTRAINTS]
-- **Professional development**: [YOUR_GROWTH_PRIORITIES]
+- **Security**: Not specified - salary expectations were skipped by the candidate; omit salary discussion in `/apply` unless the candidate raises it
+- **Flexibility**: No location constraint - open to on-site, remote, or hybrid, and open to relocating anywhere in Germany or broader Europe
+- **Professional development**: Currently completing M.Sc. Mechatronics (RWU, 4th semester) - prioritizes roles that build robotics manipulation/perception depth
 
 ### 6. Salary Benchmark (Optional)
 

@@ -2,13 +2,17 @@
 
 <!-- SETUP: Profile statements and section ordering are personalized by running /setup -->
 
-## Template: LaTeX moderncv (Banking Style)
+## Template: Two-Column Sidebar (tabular) — DEFAULT, always use this
 
-All CVs use the moderncv LaTeX package with the "banking" style and "blue" color scheme.
+All CVs use this custom two-column sidebar LaTeX template, dark teal accent color scheme, circular headshot in the sidebar. **This is the standing default for every CV produced by `/apply` — do not fall back to the legacy moderncv template below unless the user explicitly asks for it.**
+
+**Layout mechanism:** a single-row `tabular` of two `p{}` cells (minipages), not `paracol`. The template originally used `paracol` (dynamic two-column balancing), but `pdftotext` testing showed paracol's reflow reordering the underlying PDF text stream once content grew — section headers and their content landed in the wrong place in the extracted text, which breaks ATS keyword parsing even though the visual PDF looks correct. Plain side-by-side minipages (no reflow engine) were tried next, but `pdftotext`'s reading-order heuristic (reconstructs order from text x/y position, not PDF write order) could still braid two independent minipages together when their content reached similar page heights. A single-row `tabular` of two `p{}` cells gives that heuristic a much stronger column-boundary signal and tests cleanly: the sidebar now extracts fully top-to-bottom, then the main column fully top-to-bottom, with no interleaving. The divider between columns is the tabular's own column rule (`colortbl`/`\arrayrulecolor`), not a background overlay.
 
 **Output file:** `cv/main_<company>.tex`
-**Compile with:** **lualatex** on MiKTeX/TeX Live. pdflatex often fails on modern MiKTeX installs with `fontawesome5` font-expansion errors; lualatex handles the same sources cleanly.
-**Master reference:** `cv/main_example.tex` (comprehensive CV with all competencies, experience, and achievements - use as source when building targeted CVs)
+**Compile with:** **lualatex** (or pdflatex — the template only uses lmodern + T1 fontenc, no fontspec/OpenType fonts) on MiKTeX/TeX Live.
+**Page budget:** **exactly 1 page.** This is a single-page, two-column design, not the old 2-page moderncv layout — 1 page is correct and expected; anything else (a near-empty page or spillover to page 2) is a failure that must be fixed.
+**Requires:** `cv/proffesional.png` (headshot) in the same directory as the `.tex` file. (An older `cv/proffesional.jpeg` also exists from before the headshot was updated — new CVs should reference the `.png`.)
+**Master reference:** `cv/main_mercedesbenz.tex` is the current master copy — start every new CV by copying it verbatim and editing only About Me (see "Section-by-Section Tailoring" below).
 
 ### Compile command
 
@@ -16,167 +20,81 @@ All CVs use the moderncv LaTeX package with the "banking" style and "blue" color
 cd cv && lualatex -interaction=nonstopmode main_<company>.tex
 ```
 
-Expected output: `Output written on main_<company>.pdf (2 pages, ...)`. Any page count other than 2 is a failure that must be fixed before presenting to the user.
+Expected output: `Output written on main_<company>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
 
-## Document Structure
+### Layout
+
+- **Left sidebar (6.0cm cell):** circular headshot photo, About Me (profile statement), Education, Personal Data (DOB / Nationality / Location / Work Permit), Languages, Skills (4 category-labeled groups).
+- **Right main column (13.9cm cell):** Name + contact header, Work Experience, Projects.
+- Dark teal accent color for sidebar headings and job/project titles, dark slate for section headings, a thin vertical divider rule (the tabular's column rule) between the two columns.
+
+### Document structure skeleton
 
 ```latex
-\documentclass[11pt,a4paper,sans]{moderncv}
-\moderncvstyle{banking}
-\moderncvcolor{blue}
+\documentclass[9pt,a4paper]{article}
+\usepackage[a4paper,top=0cm,bottom=0cm,left=0cm,right=0.4cm,nohead,nofoot]{geometry}
+\usepackage{graphicx}\usepackage[table]{xcolor}\usepackage{tikz}\usepackage{array}
+\usepackage{enumitem}\usepackage[hidelinks]{hyperref}\usepackage[T1]{fontenc}
+\usepackage{lmodern}\usepackage{microtype}
 
-% Force both first and last name AND section headings to render in moderncv
-% blue (color1). Default banking on lualatex+MiKTeX leaves these black, which
-% looks inconsistent with the rest of the blue accent scheme.
-\renewcommand*{\firstnamestyle}[1]{{\fontsize{34}{36}\bfseries\upshape\color{color1}#1}}
-\renewcommand*{\lastnamestyle}[1]{{\fontsize{34}{36}\bfseries\upshape\color{color1}#1}}
-\renewcommand*{\sectionstyle}[1]{{\sectionfont\color{color1}#1}}
-
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=blue,
-    pdftitle={[YOUR_NAME] - CV},
-    pdfpagemode=FullScreen,
-}
-\usepackage[scale=0.77]{geometry}
-\usepackage{import}
-
-% Personal data
-\name{[FIRST_NAME]}{[LAST_NAME]}
-\address{[YOUR_ADDRESS]}{}{}
-\phone[mobile]{[YOUR_PHONE]}
-\email{[YOUR_EMAIL]}
-\extrainfo{\href{[YOUR_LINKEDIN_URL]}{LinkedIn}, \href{[YOUR_GITHUB_URL]}{GitHub}}
+% Colours: accentTeal {11,95,97}, jobTeal {15,66,68}, mainHeadCol/sidebarHead {28,47,57}
+% Macros: \sideHead{}, \mainHead{}, \jobEntry{title}{org+location}{dates}
+% itemize label redefined to plain "-" (ATS-safe, see below)
+% Divider: \arrayrulecolor{dividerCol}, drawn as the tabular's own column rule
 
 \begin{document}
-\makecvtitle
-
-% 1. Profile statement (1-3 sentences, tailored per role)
-% 2. Skills section
-% 3. Education section
-% 4. Professional Experience section
-% 5. Selected Publications (if applicable)
-% 6. Honors and Awards (if applicable)
-% 7. References
-
+\begin{tabular}{@{}p{6.0cm}|p{13.9cm}@{}}
+\begin{minipage}[t]{6.0cm}
+% LEFT SIDEBAR: photo, ABOUT ME, EDUCATION, PERSONAL DATA, LANGUAGES, SKILLS
+\end{minipage}
+&
+\begin{minipage}[t]{13.9cm}
+% RIGHT MAIN COLUMN: name header, WORK EXPERIENCE, PROJECTS
+\end{minipage}
+\end{tabular}
 \end{document}
 ```
 
-### Color overrides
+Copy the full preamble (colours, macros, `\setlist` block) verbatim from `cv/main_mercedesbenz.tex` rather than retyping it — it is identical across every CV using this template.
 
-The three `\renewcommand*` lines in the preamble are required on lualatex+MiKTeX. Without them the firstname, lastname, and section headings render in black even though `\moderncvcolor{blue}` is set, which looks inconsistent with the rest of the blue accent scheme (links, bullet markers, contact icons). The override forces all three to use `color1` (moderncv's accent colour, which becomes blue under `\moderncvcolor{blue}`). Both names render bold; if you prefer the firstname in regular weight, change the firstnamestyle override from `\bfseries` to `\mdseries`. Don't drop the override - on most modern installs the defaults render visibly wrong.
+### ATS-safe conventions (critical — do not deviate)
 
-### Spacing inside itemize lists (important)
+- **All bullet labels and date-range/compound-word separators use a plain ASCII `-`, never `--` (LaTeX en-dash).** This was a confirmed, previously-hit ATS defect: LaTeX `--` under this template's font setup extracts as a `�` replacement character in `pdftotext` (e.g. `2025--Present` extracted as `2025�Present`, corrupting every date on the CV). Always write `03/2025 - present`, `Inactive-Warning-Braking`, `Lishtong - Apple iPhone Manufacturing`, etc. with a single hyphen.
+- The `itemize` label is already redefined to a plain `-` via the `\setlist` block in the preamble — never override this back to a bullet glyph or `\textbullet`.
 
-**Do not place `\vspace{...}` between `\item` entries in an `itemize` list.** Even though the source looks symmetric, this pattern occasionally produces a noticeably oversized gap before a single item: the inter-item `\vspace` creates a paragraph break that interacts unpredictably with the list's internal `\itemsep`, so LaTeX renders one of the gaps wider than the rest. Remove the inter-item `\vspace` and let `itemize` use its native uniform spacing.
+### Section-by-Section Tailoring
 
-```latex
-% WRONG - intermittently produces an oversized gap before one bullet
-\begin{itemize}
-\item \textbf{Foo}: ...
-\vspace{1pt}
-\item \textbf{Bar}: ...
-\vspace{1pt}
-\item \textbf{Baz}: ...
-\end{itemize}
+**Only the About Me section is tailored per posting. Every other section (Education, Personal Data, Languages, Skills, Work Experience, Projects) is copied unchanged from the master (`cv/main_mercedesbenz.tex`) — no reordering, no reframing, no bullet trimming per job.** This is a standing preference: previous applications reordered Skills and Projects by relevance and reframed Work Experience bullets per posting, but the user found this made every CV inconsistent and asked to simplify to "only About Me is enough for every job." Do not revert to the old per-posting reordering/reframing behavior.
 
-% RIGHT - uniform spacing using the list's native itemsep
-\begin{itemize}
-\item \textbf{Foo}: ...
-\item \textbf{Bar}: ...
-\item \textbf{Baz}: ...
-\end{itemize}
-```
+**About Me (sidebar profile statement):** 5-7 short lines, kept simple (short, plain sentences — not dense with jargon or reworked project detail). Always keep the opening sentence establishing hardware + software breadth ("M.Sc. Mechatronics student passionate about robotics across both hardware and software. Designs embedded systems from scratch... and builds ROS2-based perception and manipulation pipelines...") — never drop this framing, since the user explicitly asked to always keep mentioning both hardware and software skills here. The only line that changes per posting is the closing sentence, which should state interest in the specific role/company plainly, e.g. "Interested in the robot-based grasping internship at Mercedes-Benz." Do not rewrite the rest of the paragraph to chase posting keywords.
 
-Two related patterns are fine and should be kept:
-- `\vspace{1pt}` immediately after `\section{...}` (between section heading and first item) - this is between the heading and the list, not between list items.
-- `\vspace{3pt}` between top-level `\cventry` blocks in Professional Experience or Education - this gives breathing room between roles and renders consistently.
+**Skills (sidebar):** 4 category-labeled groups (bold teal label + comma-separated items beneath), fixed order (Computer Vision / AI, Robotics & Autonomy, Embedded Systems, Tools & Platforms) — do not reorder per posting.
 
-## Section-by-Section Tailoring
+**Education (sidebar):** all three degrees, unchanged across applications — dates, institution, grade.
 
-### Profile Statement / Elevator Pitch (Best Practice)
-This is the most important section to customize. It appears right after `\makecvtitle`.
+**Personal Data (sidebar):** DOB, Nationality, Location, Work Permit — unchanged across applications.
 
-Write 5-7 lines that function as an "elevator pitch": a concise, compelling introduction explaining why you're qualified for *this specific role*. Focus on what the employer gains from hiring you.
+**Work Experience (main column, `\jobEntry` + itemize):** same 3 roles reverse-chronological, unchanged bullets across applications.
 
-**Create 2-3 profile statement templates for your main role types:**
+**Projects (main column, `\jobEntry` + itemize):** all 5 projects, always, in fixed date-order (most recent first) — do not reorder by relevance or trim bullets per posting.
 
-<!-- SETUP: These are populated based on your background -->
-**For [YOUR_PRIMARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_1]
+### Compile-and-Inspect Loop (MANDATORY)
 
-**For [YOUR_SECONDARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_2]
+After writing the CV and before presenting to the user, always compile and visually inspect the PDF. Because this is a single-page two-column layout, "orphaned entry" (the classic moderncv failure) is not the risk here — the real risks are:
 
-### Core Competencies / Skills Section (Best Practice)
-Reorder and emphasize based on the role. Use bold category labels.
+1. **Overflow past the page bottom.** Content that doesn't fit will be silently cut off or overlap the page edge rather than flowing to a second page. Always visually inspect both columns' bottom edges — don't just trust that "it compiled" means it fits.
+2. **Visible column imbalance.** One column running noticeably shorter than the other, leaving a large blank gap at the bottom of the shorter side while the other looks packed.
 
-List **5-7 key competencies** in bullet format, tailored to the specific job. For each competency, briefly explain how it adds value to the position.
-
-### Education
-- Always include your highest degrees
-- For senior roles, keep education brief (dates and titles only)
-- Include thesis topics when relevant to the target role
-
-### Professional Experience
-- Rewrite bullet points to emphasize aspects most relevant to the target role
-- Use 4-6 bullets for most recent role, 3-4 for previous, 2-3 for older
-- **Emphasize measurable results** where possible: "Reduced processing time by X%", "Model adopted by the team"
-
-### Handling Employment Gaps (Best Practice)
-If there is a gap in your employment history:
-- The gap should be explained matter-of-factly if needed
-- Describe how professional development continued during the gap
-- Frame as deliberate skill-building and career repositioning
-
-### Publications
-- Include Google Scholar link if applicable
-- Select 3-4 most relevant publications (not always all of them)
-- For non-academic roles, keep brief
-
-### Honors and Awards
-- Keep format brief, one line each
-
-### References
-- List 2-4 references with name, title, company, and contact
-- End with: "More references are available upon request."
-- **Do not attach reference letters** - employers typically contact references directly
-
-## Compile-and-Inspect Loop (MANDATORY)
-
-After writing the CV and before presenting to the user, always compile and visually inspect the PDF. Iterate until the layout is clean. Workflow:
-
-1. Run `lualatex -interaction=nonstopmode main_<company>.tex`
-2. Check the output page count: must be exactly 2
-3. Read the PDF via the Read tool and visually inspect both pages
-4. Check for **orphaned entries**: a `\cventry` title line must never sit alone at the bottom of page 1 with its bullets on page 2
-
-### Fixing common page-break problems
-
-**Problem: entry title on page 1, bullets orphaned to page 2**
-Add `\needspace{5\baselineskip}` immediately before the problematic `\cventry`:
-```latex
-\needspace{5\baselineskip}
-\item{\cventry{YEAR--YEAR}{Role Title}{Organization}{Location}{}{...}}
-```
-Include `\usepackage{needspace}` in the preamble.
-
-**Problem: one trailing section spills to page 3 (e.g., References alone on page 3)**
-Add `\enlargethispage{2-3\baselineskip}` before a late section (e.g., before `\section{Honors and Awards}`) to stretch page 2 by a few lines. This is the standard LaTeX rescue for near-miss overflows.
-
-**Problem: 3 pages with significant content on page 3**
-Cut content — do not compress geometry or `\vspace`. See "Relevance-weighted cutting" below for the rule.
-
-**Problem: content finishes early on page 2 (feels thin)**
-Restore the highest-relevance item that was previously cut — a CV that ends mid-page 2 looks incomplete.
+Workflow:
+1. Run `lualatex -interaction=nonstopmode main_<company>.tex`.
+2. Check the output page count: must be exactly 1.
+3. Read the PDF via the Read tool and visually inspect the full page.
+4. If content overflows or a column is packed too tight: cut using **relevance-weighted cutting** below.
+5. If there's a lot of trailing white space at the bottom of both columns: the CV looks thin — consider restoring a previously-cut project, or lengthening a short bullet with a concrete detail.
 
 ## ATS Parseability
 
-Most employers run CVs through an ATS before a human sees them, and the ATS reads the PDF's embedded **text layer**, not the rendered page. A CV can pass visual inspection and still extract as garbage. After the layout passes the compile-and-inspect loop, verify the text layer:
+Most employers run CVs through an ATS before a human sees them, and the ATS reads the PDF's embedded **text layer**, not the rendered page. After the layout passes the compile-and-inspect loop, verify the text layer:
 
 ```bash
 cd cv && pdftotext -layout main_<company>.pdf main_<company>.txt
@@ -186,73 +104,72 @@ cd cv && pdftotext -layout main_<company>.pdf main_<company>.txt
 
 What to check in the extraction:
 
-- **Contact details as literal text.** The stock template's fontawesome contact icons extract as glyph names (`MOBILE-ALT`, `Envelope`) - harmless noise, because the actual address and number are printed beside them. The failure mode is a contact detail carried *only* by an icon or a hyperlink (like the `LinkedIn` link text, whose URL is not in the text layer): invisible to an ATS. The email address must always appear as printed text.
-- **No garbled output.** `(cid:NNN)` markers or `�` characters mean a font is embedded without a Unicode mapping - an ATS sees the same garbage. This shows up with unusual fonts in custom templates, not with the stock moderncv setup under lualatex.
-- **Reading order.** The stock banking style is single-column, so extraction order matches visual order. Custom templates (via `/add-template`) with sidebars or multi-column layouts can interleave unrelated lines; if extraction order is scrambled, the user is trading ATS compatibility for looks and should be told.
-- **Keyword coverage.** Match the posting's required/preferred terms against the extracted text, in the posting's language. Prefer the posting's exact term over a synonym when it is truthfully applicable - ATS matching is often literal. Never add a keyword the profile does not support.
+- **No `--` garbling.** Search the extracted text for `�` — under this template, that character has previously indicated a LaTeX `--` en-dash that failed to get a Unicode mapping (see "ATS-safe conventions" above). If found, grep the `.tex` source for `--` and replace every occurrence with a plain `-`, then recompile and re-extract.
+- **Contact details as literal text.** The header prints the email and phone as visible text beside a mobile-icon glyph; the glyph itself may extract as an icon-font name (harmless noise), but the actual address and number must be present as literal text.
+- **No other garbled output.** `(cid:NNN)` markers mean a font is embedded without a Unicode mapping.
+- **Reading order.** Confirmed clean with the tabular layout: the sidebar extracts fully top-to-bottom, then the main column extracts fully top-to-bottom, with no interleaving between columns. This was the specific defect the paracol-to-tabular migration fixed — if a future edit to the template reintroduces interleaving, that is a regression to flag, not an accepted trade-off.
+- **Keyword coverage.** Match the posting's required/preferred terms against the extracted text, in the posting's language. Since About Me is now the only section tailored per posting, keyword coverage will naturally be thinner than under the old fully-reframed workflow — report genuine gaps honestly rather than trying to backfill keywords into sections that are no longer edited per job.
 
-## Page Budget - Hard 2-Page Limit
+## Page Budget - Hard 1-Page Limit
 
-The CV **must** fit on exactly 2 pages when compiled. Use these content limits as a guide:
+Since only About Me changes per posting, page fit is essentially fixed by the master template and should not vary between applications. If a future About Me edit is long enough to threaten the 1-page budget, shorten that paragraph rather than touching any other section.
 
-| Section | Max budget |
+| Section | Budget |
 |---------|-----------|
-| Profile statement | 3-4 lines |
-| Skills | 5 items, each 1-2 lines |
-| Most recent role | 4-5 bullets |
-| Previous role | 2-3 bullets |
-| Older roles | 2 bullets (1 line each) |
-| Education | 2-3 entries |
-| Publications | 2-3 entries |
-| Awards | 3 entries, single line each |
-| References | "Available upon request." (single line) |
+| About Me (sidebar) | 5-7 short lines; only the closing sentence changes per posting |
+| Skills (sidebar) | 4 categories, fixed order and content |
+| Education (sidebar) | 3 entries, unchanged |
+| Personal Data + Languages (sidebar) | unchanged |
+| Work Experience (main) | 3 roles, unchanged bullets |
+| Projects (main) | all 5 projects, fixed date-order, unchanged bullets |
 
-**If in doubt, cut rather than squeeze.** Reducing `\vspace` or geometry scale to force-fit content makes the CV look cramped.
+**If in doubt, cut rather than squeeze.** Do not shrink font sizes or geometry margins below what's already set in the template to force-fit content.
 
-## Relevance-weighted cutting (the right way to shrink a CV)
+---
 
-**Cut by signal, not by section.** Static priority lists ("remove oldest education first, then shorten the earliest role...") are wrong when a relevant "lower-priority" item is competing with an irrelevant "higher-priority" item. An older-role bullet that speaks directly to the posting is worth more than a recent-role bullet that does not.
+## Legacy Template: LaTeX moderncv (Banking Style)
 
-For every candidate line, score three things:
+**Only use this if the user explicitly asks for the old 2-page moderncv format instead of the default two-column sidebar template above.** All CVs prior to the two-column sidebar template becoming the default used this format; `cv/main_example.tex` remains a comprehensive reference.
 
-1. **Relevance to THIS posting** — does the line hit a named tool, keyword, or stated responsibility in the job ad?
-2. **Uniqueness** — is it the only place this claim appears, or is it duplicated elsewhere in the CV?
-3. **Narrative load** — does the cover letter depend on it? If cutting the line would force you to rewrite a cover-letter paragraph, it is load-bearing.
+**Compile with:** lualatex. **Page budget:** exactly 2 pages.
 
-Cut the lowest-total-score line first, regardless of which section it sits in.
+```bash
+cd cv && lualatex -interaction=nonstopmode main_<company>.tex
+```
 
-### Practical order of cuts (easiest → last resort)
+### Document Structure
 
-1. **Redundancy.** If an achievement appears in both Core Competencies AND a role bullet, the Core Competencies version is usually the cleaner cut (the experience bullet is more concrete evidence).
-2. **Profile-statement fluff.** A sentence that just restates what Publications or Skills will show. ("Peer-reviewed publications on X..." is already a Publications entry — profile can claim it once and stop.)
-3. **Low-relevance experience bullets.** A bullet about work that does not touch posting keywords, wherever it sits. This cuts across sections before touching the structural list.
-4. **Low-relevance supporting content.** An older-role bullet that does not speak to the target role. A certification that does not touch the posting's stack. A language entry that can be condensed to one line.
-5. **Low-relevance publications.** Keep 1-2 publications that best match the posting. Cut the rest before touching experience bullets.
-6. **Last-resort structural cuts.** Oldest education entry, tightening an older role to 2 bullets, collapsing Certifications into a single line. These only happen if the relevance-weighted cuts above have already been exhausted.
+```latex
+\documentclass[11pt,a4paper,sans]{moderncv}
+\moderncvstyle{banking}
+\moderncvcolor{blue}
 
-### Pitfalls to avoid
+\renewcommand*{\firstnamestyle}[1]{{\fontsize{34}{36}\bfseries\upshape\color{color1}#1}}
+\renewcommand*{\lastnamestyle}[1]{{\fontsize{34}{36}\bfseries\upshape\color{color1}#1}}
+\renewcommand*{\sectionstyle}[1]{{\sectionfont\color{color1}#1}}
 
-- Do not mechanically cut from the bottom of a static section list without checking relevance. "Cut the oldest role first" is wrong if that role is literally about the skill the posting asks for.
-- Do not cut the one concrete example the cover letter leans on. Relevance is measured against the cover letter you wrote, not just the job posting — interviewers will have read both.
-- Do not cut to fit if the fit is borderline (2.02 pages). Prefer `\enlargethispage{2-3\baselineskip}` on a late section for near-misses; reserve content cuts for genuine overflow (content on page 3 that is more than a single trailing section).
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=blue,
+    pdftitle={[YOUR_NAME] - CV},pdfpagemode=FullScreen}
+\usepackage[scale=0.77]{geometry}
+\usepackage{import}
 
-## Recommended Section Order
+\name{[FIRST_NAME]}{[LAST_NAME]}
+\address{[YOUR_ADDRESS]}{}{}
+\phone[mobile]{[YOUR_PHONE]}
+\email{[YOUR_EMAIL]}
+\extrainfo{\href{[YOUR_LINKEDIN_URL]}{LinkedIn}, \href{[YOUR_GITHUB_URL]}{GitHub}}
 
-The section order varies by role type:
+\begin{document}
+\makecvtitle
+% Profile statement, Core Competencies, Professional Experience, Selected
+% Projects, Education, Languages, References
+\end{document}
+```
 
-**For technical / data science / ML roles:**
-1. Profile statement / elevator pitch
-2. Core competencies / Skills
-3. Professional Experience (reverse chronological)
-4. Education (reverse chronological)
-5. Languages
-6. Publications & Awards
-7. References
+Note: on lualatex+MiKTeX, the three `\renewcommand*` overrides are required or firstname/lastname/section headings render black instead of blue. If reviving this template, **also fix the same `--` en-dash ATS-garbling issue described above** — it applies to moderncv date ranges (`\cventry{2025--Present}...`) exactly as it does to the sidebar template; use plain `-` there too.
 
-**For domain-specific / specialist roles:**
-1. Profile statement / elevator pitch
-2. Core competencies / Skills
-3. Education (reverse chronological) - credentials are a key qualifier
-4. Professional Experience (reverse chronological)
-5. Publications & Awards
-6. References
+Do not place `\vspace{...}` between `\item` entries in an `itemize` list (produces oversized gaps) — use the list's native `\itemsep` instead.
+
+If reusing this template, apply `\usepackage{needspace}` sparingly: only immediately before a `\cventry` that is actually at risk of an orphaned title, never proactively before every entry — over-applying `\needspace` has previously caused premature page breaks with large blank gaps rather than preventing orphans.
